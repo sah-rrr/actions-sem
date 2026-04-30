@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # TODO:
-      # 1. Добавь шаг, который выводит приветствие для inputs.student_name
-      # 2. Попробуй дополнительно вывести номер запуска: GITHUB_RUN_NUMBER
+      - name: Say hello
+        run: |
+          echo "Привет, ${{ github.event.inputs.student_name }}!"
+          echo "Номер запуска: ${GITHUB_RUN_NUMBER}"

@@ -2,6 +2,7 @@ name: Build and Test
 
 on:
   push:
+  pull_request:        # ← 3. добавили событие PR
   workflow_dispatch:
 
 jobs:
@@ -18,8 +19,28 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      # TODO:
-      # 1. Добавь шаг для настройки Gradle.
-      # 2. Добавь шаг, который запускает тесты командой gradle test.
-      # 3. Добавь событие pull_request.
-      # 4. Добавь отдельную job, которая срабатывает только при открытии pull request.
+      - name: Setup Gradle      # ← 1. настройка Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Run tests         # ← 2. запуск тестов
+        run: ./gradlew test
+
+  pr-check:                     # ← 4. отдельная job
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Run tests
+        run: ./gradlew test
