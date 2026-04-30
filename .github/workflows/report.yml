@@ -1,6 +1,3 @@
-https://github:
-  com/k1mo-rubik/actions-sem:
-    git:
 name: Create Report Artifact
 
 on:
